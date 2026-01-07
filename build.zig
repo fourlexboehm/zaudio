@@ -101,6 +101,8 @@ pub fn build(b: *std.Build) void {
         "-Wno-deprecated",
         "-Wno-pedantic",
         "-Wno-availability",
+        "-fobjc-arc",
+        "-DIMGUI_IMPL_OSX_DISABLE_GAMEPAD",
     };
 
     const imgui = b.addLibrary(.{

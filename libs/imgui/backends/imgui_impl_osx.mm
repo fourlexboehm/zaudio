@@ -28,7 +28,9 @@
 #import "imgui_impl_osx.h"
 #import <Cocoa/Cocoa.h>
 #import <Carbon/Carbon.h>
+#ifndef IMGUI_IMPL_OSX_DISABLE_GAMEPAD
 #import <GameController/GameController.h>
+#endif
 #import <time.h>
 
 // CHANGELOG
@@ -592,6 +594,10 @@ static void ImGui_ImplOSX_UpdateGamepads()
 {
     ImGuiIO& io = ImGui::GetIO();
 
+#if defined(IMGUI_IMPL_OSX_DISABLE_GAMEPAD)
+    io.BackendFlags &= ~ImGuiBackendFlags_HasGamepad;
+    return;
+#else
 #if APPLE_HAS_CONTROLLER
     GCController* controller = GCController.current;
 #else
@@ -638,6 +644,7 @@ static void ImGui_ImplOSX_UpdateGamepads()
     MAP_ANALOG(ImGuiKey_GamepadRStickRight,     rightThumbstick.xAxis, +thumb_dead_zone, +1.0f);
     MAP_ANALOG(ImGuiKey_GamepadRStickUp,        rightThumbstick.yAxis, +thumb_dead_zone, +1.0f);
     MAP_ANALOG(ImGuiKey_GamepadRStickDown,      rightThumbstick.yAxis, -thumb_dead_zone, -1.0f);
+#endif
     #undef MAP_BUTTON
     #undef MAP_ANALOG
 
