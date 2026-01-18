@@ -101,6 +101,7 @@ pub fn build(b: *std.Build) void {
         "-Wno-deprecated",
         "-Wno-pedantic",
         "-Wno-availability",
+        "-fno-sanitize=undefined",
         "-fobjc-arc",
         "-DIMGUI_IMPL_OSX_DISABLE_GAMEPAD",
     };
@@ -447,14 +448,9 @@ pub fn build(b: *std.Build) void {
     }
 
     if (target.result.os.tag == .macos) {
-        if (b.lazyDependency("system_sdk", .{})) |system_sdk| {
-            imgui.root_module.addSystemIncludePath(system_sdk.path("macos12/usr/include"));
-            imgui.root_module.addFrameworkPath(system_sdk.path("macos12/System/Library/Frameworks"));
-        }
+        // Rely on the system SDK already available in the toolchain.
     } else if (target.result.os.tag == .linux) {
-        if (b.lazyDependency("system_sdk", .{})) |system_sdk| {
-            imgui.root_module.addSystemIncludePath(system_sdk.path("linux/include"));
-        }
+        // Rely on the system SDK already available in the toolchain.
     }
 
     const test_step = b.step("test", "Run zgui tests");
