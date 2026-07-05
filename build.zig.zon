@@ -2,7 +2,7 @@
     .name = .zaudio,
     .fingerprint = 0xc5244e8cd6bdcffc, // Changing this has security and trust implications.
     .version = "0.11.0-dev",
-    .minimum_zig_version = "0.15.1",
+    .minimum_zig_version = "0.17.0-dev.1245+efd6f190f",
     .paths = .{
         "build.zig",
         "build.zig.zon",
